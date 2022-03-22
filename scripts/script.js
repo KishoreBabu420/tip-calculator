@@ -9,6 +9,45 @@ const isNumeric = function (number) {
   return !isNaN(number) && isFinite(number);
 };
 
+//total Bill Per Person
+
+const totalBillPerPerson = function (totalTip) {
+  const totalPerPerson = ((totalBill + totalTip) / totalPeople).toFixed(2);
+
+  const amountPerPerson = document.getElementById('total-amount-per-person');
+
+  if (isNumeric(totalPerPerson)) {
+    return (amountPerPerson.innerHTML = `$${totalPerPerson}`);
+  }
+};
+
+//Function to calculate TipPerPerson
+const tipPerPerson = function () {
+  const totalTip = totalBill * (tipSelected / 100);
+
+  const tipPerPersonNode = document.getElementById('total-tip-per-person');
+
+  if (isNumeric((totalTip / totalPeople).toFixed(2))) {
+    totalBillPerPerson(totalTip);
+    return (tipPerPersonNode.innerText = `$${(totalTip / totalPeople).toFixed(
+      2,
+    )}`);
+  }
+};
+
+//Function to get number of people
+
+const peopleInput = function (event) {
+  totalPeople = Number(event.target.value);
+
+  if (totalPeople <= 0) {
+    document.getElementById('people-error-message').style.display = 'block';
+  } else {
+    document.getElementById('people-error-message').style.display = 'none';
+    tipPerPerson();
+  }
+};
+
 //Function to handle input value of the Bill
 
 const billInput = function () {
@@ -19,5 +58,24 @@ const billInput = function () {
     document.getElementById('bill-error-message').style.display = 'block';
   } else {
     document.getElementById('bill-error-message').style.display = 'none';
+  }
+};
+
+const tipInput = function (event) {
+  let tipNode = document.getElementsByClassName('tip-value-active')[0];
+
+  if (tipNode !== undefined) {
+    tipNode.classList.remove('tip-value-active');
+  }
+
+  event.target.className += 'tip-value-active';
+
+  tipSelected = Number(event.target.value);
+
+  if (tipSelected < 0) {
+    document.getElementById('tip-error-message').style.display = 'block';
+  } else {
+    document.getElementById('tip-error-message').style.display = 'none';
+    tipPerPerson();
   }
 };
