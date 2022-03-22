@@ -15,7 +15,6 @@ const billInput = function () {
   totalBill = Number(document.getElementById('bill-charge').value);
 
   //check for the valid input
-
   if (totalBill <= 0) {
     document.getElementById('bill-error-message').style.display = 'block';
   } else {
